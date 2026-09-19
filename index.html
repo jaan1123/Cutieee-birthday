@@ -21,7 +21,7 @@ button:active{transform:scale(.97)}
 .no{background:#fff;color:#a33a49;border:2px solid #d38b91;box-shadow:none}
 .buttons{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
 
-/* Birthday screen — only this page was changed */
+/* Birthday screen */
 .birthday-screen{background:#f9e3e8;padding:0}
 .birthday-box{
   position:relative;z-index:2;
@@ -36,8 +36,7 @@ button:active{transform:scale(.97)}
   object-fit:contain;
   border-radius:0;
 }
-/* The CLICK ME ✨ is already inside the uploaded birthday artwork.
-   This transparent overlay makes that exact visible button clickable. */
+/* Transparent hit area over the CLICK ME already printed in the artwork. */
 .birthday-click{
   position:absolute;
   left:41.9%;
@@ -54,10 +53,31 @@ button:active{transform:scale(.97)}
   font-size:0;
 }
 .birthday-click:focus{outline:3px solid rgba(184,62,82,.18)}
+
 @media(max-width:600px){
- .birthday-box{width:100vw;height:100vh}
- .birthday-art{width:100vw;height:100vh;object-fit:contain}
- .birthday-click{left:40.5%;top:72.5%;width:19%;height:10.5%}
+  /* On a phone, keep the 16:9 birthday artwork together instead of
+     forcing it into a tall box. This removes the giant empty gap and
+     keeps the clickable area on top of the printed CLICK ME. */
+  .birthday-box{
+    width:100vw;
+    height:56.22vw;
+    max-height:100vh;
+    flex:none;
+    position:relative;
+  }
+  .birthday-art{
+    width:100vw;
+    height:auto;
+    max-width:100vw;
+    max-height:none;
+    object-fit:contain;
+  }
+  .birthday-click{
+    left:41.9%;
+    top:72.9%;
+    width:16.4%;
+    height:9.5%;
+  }
 }
 
 /* Wish screen */
