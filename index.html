@@ -55,9 +55,28 @@ button:active{transform:scale(.97)}
 }
 .birthday-click:focus{outline:3px solid rgba(184,62,82,.18)}
 @media(max-width:600px){
- .birthday-box{width:100vw;height:100vh}
- .birthday-art{width:100vw;height:100vh;object-fit:contain}
- .birthday-click{left:40.5%;top:72.5%;width:19%;height:10.5%}
+ .birthday-box{width:100vw;height:100vh;position:relative}
+ .birthday-art{
+   position:absolute;
+   left:0;
+   top:50%;
+   width:100vw;
+   height:auto;
+   max-width:none;
+   max-height:none;
+   object-fit:contain;
+   transform:translateY(-50%);
+ }
+ /* Align the invisible hit area with the CLICK ME artwork on phones. */
+ .birthday-click{
+   left:41.9vw;
+   top:calc(50% + 12.9vw);
+   width:16.4vw;
+   height:5.35vw;
+   margin:0;
+   padding:0;
+   font-size:0;
+ }
 }
 
 /* Wish screen */
@@ -70,9 +89,6 @@ button:active{transform:scale(.97)}
 @media(max-width:600px){
  .screen{padding:10px}
  .sticker{width:190px;height:190px}
- .birthday-box{gap:9px}
- .birthday-art{width:96vw;max-height:67vh}
- .birthday-click{width:220px;height:58px;font-size:18px}
  .letter{font-size:14px;line-height:1.42;padding:16px 18px}
 }
 </style>
