@@ -21,7 +21,7 @@ button:active{transform:scale(.97)}
 .no{background:#fff;color:#a33a49;border:2px solid #d38b91;box-shadow:none}
 .buttons{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
 
-/* Birthday screen */
+/* Birthday screen — only this page was changed */
 .birthday-screen{background:#f9e3e8;padding:0}
 .birthday-box{
   position:relative;z-index:2;
@@ -36,7 +36,8 @@ button:active{transform:scale(.97)}
   object-fit:contain;
   border-radius:0;
 }
-/* Transparent hit area over the CLICK ME already printed in the artwork. */
+/* The CLICK ME ✨ is already inside the uploaded birthday artwork.
+   This transparent overlay makes that exact visible button clickable. */
 .birthday-click{
   position:absolute;
   left:41.9%;
@@ -53,31 +54,10 @@ button:active{transform:scale(.97)}
   font-size:0;
 }
 .birthday-click:focus{outline:3px solid rgba(184,62,82,.18)}
-
 @media(max-width:600px){
-  /* On a phone, keep the 16:9 birthday artwork together instead of
-     forcing it into a tall box. This removes the giant empty gap and
-     keeps the clickable area on top of the printed CLICK ME. */
-  .birthday-box{
-    width:100vw;
-    height:56.22vw;
-    max-height:100vh;
-    flex:none;
-    position:relative;
-  }
-  .birthday-art{
-    width:100vw;
-    height:auto;
-    max-width:100vw;
-    max-height:none;
-    object-fit:contain;
-  }
-  .birthday-click{
-    left:41.9%;
-    top:72.9%;
-    width:16.4%;
-    height:9.5%;
-  }
+ .birthday-box{width:100vw;height:100vh}
+ .birthday-art{width:100vw;height:100vh;object-fit:contain}
+ .birthday-click{left:40.5%;top:72.5%;width:19%;height:10.5%}
 }
 
 /* Wish screen */
@@ -98,6 +78,11 @@ button:active{transform:scale(.97)}
 </style>
 </head>
 <body>
+
+
+<audio id="bgMusic" preload="auto" loop>
+  <source src="assets/birthday_song_female.mpeg" type="audio/mpeg">
+</audio>
 
 <section class="screen active" id="welcome">
 <div class="bg"></div>
@@ -151,14 +136,31 @@ button:active{transform:scale(.97)}
 <p>Happy Birthday once again! 🎂💗</p>
 <p class="sig">With lots of love💞</p>
 </div>
-<button type="button" class="replay" onclick="showScreen('welcome')">Replay ↻</button>
+<button type="button" class="replay" onclick="replayExperience()">Replay ↻</button>
 </div>
 </section>
 
 <script>
+const bgMusic = document.getElementById('bgMusic');
+
+function startMusic(){
+  if (!bgMusic) return;
+  bgMusic.volume = 0.65;
+  const playPromise = bgMusic.play();
+  if (playPromise && typeof playPromise.catch === 'function') {
+    playPromise.catch(function(){});
+  }
+}
+
 function showScreen(id){
   const next=document.getElementById(id);
   if(!next)return;
+
+  // Start after the user's first tap/click, avoiding mobile autoplay blocking.
+  if(id === 'question' || id === 'birthday' || id === 'wish'){
+    startMusic();
+  }
+
   document.querySelectorAll('.screen').forEach(function(screen){screen.classList.remove('active');});
   next.classList.add('active');
 }
@@ -167,6 +169,14 @@ function showScreen(id){
 document.getElementById('birthdayButton').addEventListener('click',function(){
   showScreen('wish');
 });
+
+function replayExperience(){
+  if (bgMusic) {
+    bgMusic.pause();
+    bgMusic.currentTime = 0;
+  }
+  showScreen('welcome');
+}
 </script>
 </body>
 </html>
